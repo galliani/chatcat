@@ -17,10 +17,14 @@ func RunHost(ip string) {
         log.Fatal("Error: ", listenErr)
     }
 
+    fmt.Println("Listening on ", ipAndPort)
+
     conn, acceptErr := listener.Accept()
     if acceptErr != nil {
         log.Fatal("Error: ", acceptErr)
     }
+
+    fmt.Println("New connection accepted")
 
     reader := bufio.NewReader(conn)
     message, readErr := reader.ReadString('\n')
