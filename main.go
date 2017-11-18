@@ -3,10 +3,8 @@ package main
 import (
   "fmt"
   "flag"
-  "net"
   "os"
-  "log"
-  "bufio"
+  "./lib"
 )
 
 func main() {
@@ -22,36 +20,9 @@ func main() {
 
     if isHost {
         connIP := os.Args[2]
-        runHost(connIP)
-        // fmt.Println("is host")
+        lib.RunHost(connIP)
     } else {
         fmt.Println("is guest")
     }
 }
 
-const port = "8080"
-
-func runHost(ip string) {
-    ipAndPort := ip + ":" + port
-    listener, listenErr := net.Listen("tcp", ipAndPort)
-    if listenErr != nil {
-        log.Fatal("Error: ", listenErr)
-    }
-
-    conn, acceptErr := listener.Accept()
-    if acceptErr != nil {
-        log.Fatal("Error: ", acceptErr)
-    }
-
-    reader := bufio.NewReader(conn)
-    message, readErr := reader.ReadString('\n')
-    if readErr != nil {
-      log.Fatal("Error: ", readErr)
-    }
-
-    fmt.Println("message received: ", message)
-}
-
-func runGuest(ip string) {
-
-}
