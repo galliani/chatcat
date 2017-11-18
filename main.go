@@ -1,7 +1,6 @@
 package main
 
 import (
-  "fmt"
   "flag"
   "os"
   "./lib"
@@ -22,7 +21,8 @@ func main() {
         connIP := os.Args[2]
         lib.RunHost(connIP)
     } else {
-        fmt.Println("is guest")
+        connIP := os.Args[1]
+        lib.RunGuest(connIP)        
     }
 }
 
