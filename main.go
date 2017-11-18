@@ -6,6 +6,7 @@ import (
   "net"
   "os"
   "log"
+  "bufio"
 )
 
 func main() {
@@ -32,11 +33,23 @@ const port = "8080"
 
 func runHost(ip string) {
     ipAndPort := ip + ":" + port
-    _, listenErr := net.Listen("tcp", ipAndPort)
-
+    listener, listenErr := net.Listen("tcp", ipAndPort)
     if listenErr != nil {
         log.Fatal("Error: ", listenErr)
     }
+
+    conn, acceptErr := listener.Accept()
+    if acceptErr != nil {
+        log.Fatal("Error: ", acceptErr)
+    }
+
+    reader := bufio.NewReader(conn)
+    message, readErr := reader.ReadString('\n')
+    if readErr != nil {
+      log.Fatal("Error: ", readErr)
+    }
+
+    fmt.Println("message received: ", message)
 }
 
 func runGuest(ip string) {
