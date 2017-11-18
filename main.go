@@ -3,6 +3,9 @@ package main
 import (
   "fmt"
   "flag"
+  "net"
+  "os"
+  "log"
 )
 
 func main() {
@@ -17,8 +20,25 @@ func main() {
     flag.Parse()
 
     if isHost {
-        fmt.Println("is host")
+        connIP := os.Args[2]
+        runHost(connIP)
+        // fmt.Println("is host")
     } else {
         fmt.Println("is guest")
     }
+}
+
+const port = "8080"
+
+func runHost(ip string) {
+    ipAndPort := ip + ":" + port
+    _, listenErr := net.Listen("tcp", ipAndPort)
+
+    if listenErr != nil {
+        log.Fatal("Error: ", listenErr)
+    }
+}
+
+func runGuest(ip string) {
+
 }
